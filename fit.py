@@ -15,21 +15,37 @@ def adc2t(adc_val, u_ref, adc_res, rx, beta, r25):
 def main():
 
 	parser = ap.ArgumentParser()
+
 	parser.add_argument("-a",
 		"--adc_res",
 		type = int,
 		help = "ADC resolution (default 10 bits)",
 		default = 10)
+
 	parser.add_argument("-r",
 		"--u_ref",
 		type = float,
 		help = "ADC reference voltage (default 3.3V)",
 		default = 3.3)
+
 	parser.add_argument("-rx",
 		"--resistance",
 		type = float,
 		help = "resistance of resistor in series with termistor in Ohms (default 10k)",
 		default = 10000)
+
+	parser.add_argument("-b",
+		"--beta",
+		type = float,
+		help = "thermistor beta coefficient in Kelwins (default 3900)",
+		default = 3900)
+
+	parser.add_argument("-r25",
+		"--resistance_in_25C",
+		type = float,
+		help = "thermistor resistance in 25C in Ohms (default 10000)",
+		default = 10000)
+
 	args = parser.parse_args()
 
 	f = open('adc2u.dat' ,'w+')

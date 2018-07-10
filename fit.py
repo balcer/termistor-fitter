@@ -50,8 +50,8 @@ def main():
 
 	f = open('adc2u.dat' ,'w+')
 	f.write("#adc_val      u       r\n")
-	for x in range(1, 2**args.adc_res):
 		line = '%-10d %4f %12f\n' % (x, adc2u(x, args.u_ref, args.adc_res), adc2r(x, args.u_ref, args.adc_res, args.resistance))
+	for x in range(1, (2**args.adc_res) - 1):
 		f.write(line)
 	f.close()
 

@@ -9,6 +9,9 @@ def adc2u(adc_val, u_ref, adc_res):
 def adc2r(adc_val, u_ref, adc_res, rx):
 	return ((u_ref * rx) / adc2u(adc_val, u_ref, adc_res)) - rx
 
+def adc2t(adc_val, u_ref, adc_res, rx, beta, r25):
+	return (1 / ((log(adc2r(adc_val, u_ref, adc_res, rx) / r25) / beta) + (1 / (tabs + 25))))
+
 def main():
 
 	parser = ap.ArgumentParser()

@@ -1,9 +1,7 @@
 from math import exp, log
 import argparse as ap
 
-adc_res = 10
-u_ref = 3.3
-rx = 8.03
+tabs = 273.15
 
 def adc2u(adc_val, u_ref, adc_res):
 	return (u_ref / ((2**adc_res) - 1)) * adc_val

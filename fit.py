@@ -49,9 +49,12 @@ def main():
 	args = parser.parse_args()
 
 	f = open('adc2u.dat' ,'w+')
-	f.write("#adc_val      u       r\n")
-		line = '%-10d %4f %12f\n' % (x, adc2u(x, args.u_ref, args.adc_res), adc2r(x, args.u_ref, args.adc_res, args.resistance))
+	f.write("#adc_val     u[V]      r[Ohms]           t[C]\n")
 	for x in range(1, (2**args.adc_res) - 1):
+		line = '%-10d %10f %14f %14f\n' % (x,
+			adc2u(x, args.u_ref, args.adc_res),
+			adc2r(x, args.u_ref, args.adc_res, args.resistance),
+			adc2t(x, args.u_ref, args.adc_res, args.resistance, args.beta, args.resistance_in_25C) - tabs)
 		f.write(line)
 	f.close()
 

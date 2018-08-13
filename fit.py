@@ -1,4 +1,4 @@
-from math import exp, log
+from math import log
 import argparse as ap
 
 tabs = 273.15

@@ -1,16 +1,13 @@
 from math import log
 import argparse as ap
 
-
-def adc2u(adc_val, u_ref, adc_res):
-	return (u_ref / ((2**adc_res) - 1)) * adc_val
-
-def adc2r(adc_val, u_ref, adc_res, rx):
-	return ((u_ref * rx) / adc2u(adc_val, u_ref, adc_res)) - rx
 TABS = 273.15
 
 def adc2t(adc_val, u_ref, adc_res, rx, beta, r25):
-	return (1 / ((log(adc2r(adc_val, u_ref, adc_res, rx) / r25) / beta) + (1 / (tabs + 25))))
+    u = (u_ref / ((2**adc_res) - 1)) * adc_val
+    r = ((u_ref * rx) / u) - rx
+    t = (1 / ((log(r / r25) / beta) + (1 / (TABS + 25)))) -TABS
+    return u, r, t
 
 def main():
 
@@ -48,15 +45,15 @@ def main():
 
 	args = parser.parse_args()
 
-	f = open('adc2u.dat' ,'w+')
-	f.write("#adc_val     u[V]      r[Ohms]           t[C]\n")
-	for x in range(1, (2**args.adc_res) - 1):
-		line = '%-10d %10f %14f %14f\n' % (x,
-			adc2u(x, args.u_ref, args.adc_res),
-			adc2r(x, args.u_ref, args.adc_res, args.resistance),
-			adc2t(x, args.u_ref, args.adc_res, args.resistance, args.beta, args.resistance_in_25C) - tabs)
-		f.write(line)
-	f.close()
+    f = open('data.dat', 'w+')
+    f.write("#adc_val     u[V]      r[Ohms]           t[C]\n")
+    for x in range(1, (2**args.adc_res) - 1):
+
+        u, r , t = adc2te(x, args.u_ref, args.adc_res, args.resistance, args.beta, args.resistance_in_25C)
+
+        line = '%-10d %10f %14f %14f\n' % (x, u, r, t)
+        f.write(line)
+    f.close()
 
 if __name__ == "__main__":
 	main()

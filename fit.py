@@ -1,13 +1,13 @@
 from math import log
 import argparse as ap
 
-tabs = 273.15
 
 def adc2u(adc_val, u_ref, adc_res):
 	return (u_ref / ((2**adc_res) - 1)) * adc_val
 
 def adc2r(adc_val, u_ref, adc_res, rx):
 	return ((u_ref * rx) / adc2u(adc_val, u_ref, adc_res)) - rx
+TABS = 273.15
 
 def adc2t(adc_val, u_ref, adc_res, rx, beta, r25):
 	return (1 / ((log(adc2r(adc_val, u_ref, adc_res, rx) / r25) / beta) + (1 / (tabs + 25))))
